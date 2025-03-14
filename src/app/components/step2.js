@@ -17,13 +17,12 @@ export const schema = z.object({
   ),
 });
 
-const [preview, setPreview] = useState(null);
-
 export const Step2 = ({ handleContinue }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    watch,
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -31,12 +30,9 @@ export const Step2 = ({ handleContinue }) => {
       img: null,
     },
   });
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-    }
-  };
+
+  const { img } = watch();
+
   return (
     <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
       <form onSubmit={handleSubmit(handleContinue)}>
@@ -74,12 +70,15 @@ export const Step2 = ({ handleContinue }) => {
               {...register("img")}
               type="file"
               className="flex flex-col justify-center items-center w-[416px] h-[180px] p-[12px] rounded-md mt-[12px] divide-none bg-[#7F7F800D]"
-              onChange={() => {
-                handleImage;
-              }}
             />
             {errors.img && (
               <div className="text-red-600 text-sm">{errors.img.message}</div>
+            )}
+            {img && (
+              <img
+                className="absolute top-[295px] left-[20px] w-[440px] h-[205px] p-[12px] rounded-[10px] mt-[12px] divide-none"
+                src={URL.createObjectURL(img[0])}
+              />
             )}
           </div>
 

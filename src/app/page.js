@@ -10,7 +10,7 @@ import { Step } from "./components/step";
 import { Step2 } from "./components/step2";
 
 export default function Home() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
 
   const handlePrev = async () => {
     setStep((prev) => prev - 1);
