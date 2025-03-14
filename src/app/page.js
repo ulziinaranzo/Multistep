@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { step1 } from "./components/step1";
+import { Step1, step1 } from "./components/step1";
+import { Step } from "./components/step";
+import { Step2 } from "./components/step2";
 
 export default function Home() {
   const [step, setStep] = useState(1);
@@ -20,12 +22,10 @@ export default function Home() {
 
   return (
     <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
-      <form onSubmit={handleSubmit(handleContinue)}>
-        {step === 1 && <step />}
+      {step === 1 && <Step handleContinue={handleContinue} />}
 
-        {step === 2 && <step1 />}
-        {step === 3 && <step2 />}
-      </form>
+      {step === 2 && <Step1 handleContinue={handleContinue} />}
+      {step === 3 && <Step2 handleContinue={handleContinue} />}
     </div>
   );
 }

@@ -25,11 +25,11 @@ export const schema = z.object({
   confirmPassword: z
     .string()
     .min(1, { message: "Нууц үгээ давтан оруулна уу" })
-    .refine((value, context) => value === context?.parent?.password, {
+    .refine((value, context) => value !== context?.parent?.password, {
       message: "Нууц үг таарахгүй байна",
     }),
 });
-export const step1 = () => {
+export const Step1 = ({ handleContinue }) => {
   const {
     register,
     handleSubmit,
@@ -43,15 +43,19 @@ export const step1 = () => {
       confirmPassword: "",
     },
   });
+
   return (
     <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
       <form onSubmit={handleSubmit(handleContinue)}>
         <div className="flex flex-col w-[480px] h-fit rounded-[8px] justify-between p-[32px] bg-[white]">
-          <div className="text-[26px] text-[#202124]">
-            <b>Step 2: Additional Info</b>
-          </div>
-          <div className="text-[#8E8E8E] text-[18px]">
-            Add your additional information here.
+          <div className="flex flex-col gap-[8px] mb-[28px]">
+            <img src="/Images/Main 1.png" className="w-[60px] h-[60px]" />
+            <div className="text-[26px] text-[#202124]">
+              <b>Join Us! 😎</b>
+            </div>
+            <div className="text-[#8E8E8E] text-[18px]">
+              Please provide all current information accurately.
+            </div>
           </div>
 
           <div className="flex flex-col gap-[12px]">
@@ -113,7 +117,7 @@ export const step1 = () => {
 
             <div className="flex flex-col gap-[8px] text-[14px] text-[#334155]">
               <div className="flex gap-[4px] font-semibold">
-                Password <div className="flex text-[#E14942]">*</div>
+                Confirm Password <div className="flex text-[#E14942]">*</div>
               </div>
               <input
                 {...register("confirmPassword")}

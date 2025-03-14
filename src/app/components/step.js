@@ -11,7 +11,7 @@ export const schema = z.object({
   lastName: z.string().min(1, { message: "Овгоо оруулна уу" }),
 });
 
-export const step = () => {
+export const Step = ({ handleContinue }) => {
   const {
     register,
     handleSubmit,
@@ -28,7 +28,7 @@ export const step = () => {
     <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
       <form onSubmit={handleSubmit(handleContinue)}>
         <div className="flex flex-col w-[480px] h-fit rounded-[8px] justify-between p-[32px] bg-[white]">
-          <div className="flex flex-col gap-[8px]">
+          <div className="flex flex-col gap-[8px] mb-[28px]">
             <img src="/Images/Main 1.png" className="w-[60px] h-[60px]" />
             <div className="text-[26px] text-[#202124]">
               <b>Join Us! 😎</b>
