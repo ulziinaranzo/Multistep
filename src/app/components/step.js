@@ -1,10 +1,11 @@
 "use client";
 import { ArrowIcon } from "@/assets/Arrow-Icon";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
+import { SaveContext, SaveDataProvider } from "./saveDataProvider";
 
 export const schema = z.object({
   username: z.string().min(1, { message: "Хэрэглэгчийн нэрээ оруулна уу " }),
@@ -13,6 +14,8 @@ export const schema = z.object({
 });
 
 export const Step = ({ handleContinue }) => {
+  const { saveData, setSaveData } = useContext(SaveContext);
+
   const {
     register,
     handleSubmit,

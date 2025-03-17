@@ -30,7 +30,9 @@ export const schema = z.object({
       message: "Нууц үг таарахгүй байна",
     }),
 });
-export const Step1 = ({ handleContinue }) => {
+export const Step1 = ({ handleContinue, handlePrev }) => {
+  const { saveData, setSaveData } = useContext(SaveContext);
+
   const {
     register,
     handleSubmit,
@@ -137,7 +139,8 @@ export const Step1 = ({ handleContinue }) => {
           </div>
           <div className="flex gap-[8px]">
             <button
-              type="submit"
+              type="button"
+              onClick={handlePrev}
               className="flex justify-center items-center text-center bg-[white] rounded-[6px] text-[black] h-[44px] w-[128px] mt-[10px] border border-[#CBD5E1]"
             >
               Back <ArrowIcon />

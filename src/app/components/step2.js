@@ -215,8 +215,9 @@ import { motion } from "framer-motion";
 
 export const schema = z.object({
   date: z.string().min(1, { message: "Огноо оруулна уу" }),
-  img: z.instanceof(File).refine(
-    (file) => {
+  img: z.instanceof(FileList).refine(
+    (files) => {
+      const file = files[0];
       const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
       return allowedExtensions.includes(file.type.split("/")[1]);
     },
@@ -224,8 +225,8 @@ export const schema = z.object({
   ),
 });
 
-export const Step2 = ({ handleContinue } { handlePrev }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
+export const Step2 = ({ handleContinue, handlePrev }) => {
+  const { saveData, setSaveData } = useContext(SaveContext);
 
   const {
     register,
@@ -241,13 +242,7 @@ export const Step2 = ({ handleContinue } { handlePrev }) => {
     },
   });
 
-  const onFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setValue("img", file);
-    }
-  };
+  const { img } = watch();
 
   const onSubmit = (data) => {
     console.log("Form data submitted: ", data);
@@ -305,29 +300,37 @@ export const Step2 = ({ handleContinue } { handlePrev }) => {
             <input
               {...register("img")}
               type="file"
-              onChange={onFileChange}
               className="w-[416px] h-[44px] p-[12px] rounded-md mt-[12px] bg-[#7F7F800D]"
             />
             {errors.img && (
               <div className="text-red-600 text-sm">{errors.img.message}</div>
             )}
-            {selectedFile && (
-              <div className="flex justify-center mt-4">
-                <img
-                  className="w-[200px] h-[200px] object-cover rounded-[10px]"
-                  src={URL.createObjectURL(selectedFile)}
-                  alt="Uploaded Profile"
-                />
-              </div>
-            )}
-          </div>
 
-          <button
-            type="submit"
-            className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] h-[44px] w-[416px] mt-[10px]"
-          >
-            Submit <ArrowIcon />
-          </button>
+            <div className="flex justify-center mt-4">
+              {img && (
+                <img
+                  className="w-full h-[200px] object-cover rounded-[10px]"
+                  src={URL.createObjectURL(img[0])}
+                />
+              )}
+            </div>
+          </div>
+          <div className="flex gap-[8px]">
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="flex justify-center items-center bg-[white] rounded-[6px] text-[black] h-[44px] w-[416px] mt-[10px] border border-[#CBD5E1]"
+            >
+              Back
+              <ArrowIcon />
+            </button>
+            <button
+              type="submit"
+              className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] h-[44px] w-[416px] mt-[10px]"
+            >
+              Submit <ArrowIcon />
+            </button>
+          </div>
         </div>
       </form>
     </motion.div>
