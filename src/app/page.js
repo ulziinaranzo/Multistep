@@ -297,3 +297,33 @@ export default function Home() {
 //     </div>
 //   );
 // }
+
+
+"use client";
+import { useState } from "react";
+import { Step } from "@/components/Step"; 
+import { Step2 } from "@/components/Step2"; 
+
+const Main = () => {
+  const [step, setStep] = useState(1); 
+
+  const handleContinue = (data: any) => {
+    console.log(data); 
+    if (step === 1) {
+      setStep(2); 
+    } else {
+      console.log("Form submitted successfully", data);
+    }
+  };
+
+  return (
+    <div>
+      <h1 className="text-center text-3xl font-bold mb-4">Welcome to Our Registration</h1>
+
+      {step === 1 && <Step handleContinue={handleContinue} />}
+      {step === 2 && <Step2 handleContinue={handleContinue} />}
+    </div>
+  );
+};
+
+export default Main;
