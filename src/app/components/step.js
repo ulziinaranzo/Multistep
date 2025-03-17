@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { motion } from "framer-motion";
 
 export const schema = z.object({
   username: z.string().min(1, { message: "Хэрэглэгчийн нэрээ оруулна уу " }),
@@ -24,8 +25,23 @@ export const Step = ({ handleContinue }) => {
       username: "",
     },
   });
+
+  const handleAnimation = {
+    initial: { opacity: 0, x: -100 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: 100 },
+    transition: { duration: 0.5 },
+  };
+
   return (
-    <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
+    <motion.div
+      className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]"
+      variants={handleAnimation}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition="transition"
+    >
       <form onSubmit={handleSubmit(handleContinue)}>
         <div className="flex flex-col w-[480px] h-fit rounded-[8px] justify-between p-[32px] bg-[white]">
           <div className="flex flex-col gap-[8px] mb-[28px]">
@@ -100,6 +116,6 @@ export const Step = ({ handleContinue }) => {
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 };

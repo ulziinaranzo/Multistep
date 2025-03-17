@@ -94,7 +94,6 @@
 //   );
 // };
 
-
 // "use client";
 // import { ArrowIcon } from "@/assets/Arrow-Icon";
 // import { useState } from "react";
@@ -206,8 +205,6 @@
 //   );
 // };
 
-
-
 "use client";
 import { ArrowIcon } from "@/assets/Arrow-Icon";
 import { useState } from "react";
@@ -218,19 +215,17 @@ import { motion } from "framer-motion";
 
 export const schema = z.object({
   date: z.string().min(1, { message: "Огноо оруулна уу" }),
-  img: z
-    .instanceof(File)
-    .refine(
-      (file) => {
-        const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
-        return allowedExtensions.includes(file.type.split("/")[1]);
-      },
-      { message: "Зурган файл оруулна уу" }
-    ),
+  img: z.instanceof(File).refine(
+    (file) => {
+      const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+      return allowedExtensions.includes(file.type.split("/")[1]);
+    },
+    { message: "Зурган файл оруулна уу" }
+  ),
 });
 
-export const Step2 = ({ handleContinue }) => {
-  const [selectedFile, setSelectedFile] = useState(null); 
+export const Step2 = ({ handleContinue } { handlePrev }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const {
     register,
@@ -246,18 +241,17 @@ export const Step2 = ({ handleContinue }) => {
     },
   });
 
-
   const onFileChange = (e) => {
-    const file = e.target.files[0]; 
+    const file = e.target.files[0];
     if (file) {
-      setSelectedFile(file); 
-      setValue("img", file); 
+      setSelectedFile(file);
+      setValue("img", file);
     }
   };
 
   const onSubmit = (data) => {
-    console.log("Form data submitted: ", data); 
-    handleContinue(data); 
+    console.log("Form data submitted: ", data);
+    handleContinue(data);
   };
 
   const handleAnimation = {
@@ -311,7 +305,7 @@ export const Step2 = ({ handleContinue }) => {
             <input
               {...register("img")}
               type="file"
-              onChange={onFileChange} 
+              onChange={onFileChange}
               className="w-[416px] h-[44px] p-[12px] rounded-md mt-[12px] bg-[#7F7F800D]"
             />
             {errors.img && (
@@ -321,7 +315,7 @@ export const Step2 = ({ handleContinue }) => {
               <div className="flex justify-center mt-4">
                 <img
                   className="w-[200px] h-[200px] object-cover rounded-[10px]"
-                  src={URL.createObjectURL(selectedFile)} 
+                  src={URL.createObjectURL(selectedFile)}
                   alt="Uploaded Profile"
                 />
               </div>
@@ -336,6 +330,6 @@ export const Step2 = ({ handleContinue }) => {
           </button>
         </div>
       </form>
-      </motion.div>
+    </motion.div>
   );
 };

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { motion } from "framer-motion";
 
 export const schema = z.object({
   phone: z
@@ -134,13 +135,20 @@ export const Step1 = ({ handleContinue }) => {
               )}
             </div>
           </div>
-
-          <button
-            type="submit"
-            className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] h-[44px] w-[416px] mt-[10px]"
-          >
-            Continue 2/3 <ArrowIcon />
-          </button>
+          <div className="flex gap-[8px]">
+            <button
+              type="submit"
+              className="flex justify-center items-center text-center bg-[white] rounded-[6px] text-[black] h-[44px] w-[128px] mt-[10px] border border-[#CBD5E1]"
+            >
+              Back <ArrowIcon />
+            </button>
+            <button
+              type="submit"
+              className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] h-[44px] w-[416px] mt-[10px]"
+            >
+              Continue 2/3 <ArrowIcon />
+            </button>
+          </div>
         </div>
       </form>
     </div>
