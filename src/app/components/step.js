@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { SaveContext, SaveDataProvider } from "./saveDataProvider";
+import { SaveContext } from "./saveDataProvider";
 
 export const schema = z.object({
   username: z.string().min(1, { message: "Хэрэглэгчийн нэрээ оруулна уу " }),
@@ -14,7 +14,7 @@ export const schema = z.object({
 });
 
 export const Step = ({ handleContinue }) => {
-  const { saveData, setSaveData } = useContext(SaveContext);
+const { saveData, setSaveData } = useContext(SaveContext)
 
   const {
     register,
@@ -23,9 +23,9 @@ export const Step = ({ handleContinue }) => {
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      username: "",
+      firstName: saveData.firstName || "",
+      lastName: saveData.lastName || "",
+      username: saveData.username || "",
     },
   });
 
@@ -36,15 +36,9 @@ export const Step = ({ handleContinue }) => {
     transition: { duration: 0.5 },
   };
 
+
   return (
-    <motion.div
-      className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]"
-      variants={handleAnimation}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      transition="transition"
-    >
+    <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
       <form onSubmit={handleSubmit(handleContinue)}>
         <div className="flex flex-col w-[480px] h-fit rounded-[8px] justify-between p-[32px] bg-[white]">
           <div className="flex flex-col gap-[8px] mb-[28px]">
@@ -119,6 +113,6 @@ export const Step = ({ handleContinue }) => {
           </button>
         </div>
       </form>
-    </motion.div>
+    </div>
   );
 };

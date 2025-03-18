@@ -1,5 +1,6 @@
 "use client";
 import { ArrowIcon } from "@/assets/Arrow-Icon";
+import { useContext } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,16 +41,19 @@ export const Step1 = ({ handleContinue, handlePrev }) => {
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
+      email: data.email || "",
+      phone: data.phone || "",
+      password: data.password || "",
+      confirmPassword: data.confirmPassword || "",
     },
   });
 
   return (
     <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
-      <form onSubmit={handleSubmit(handleContinue)}>
+      <form onSubmit={handleSubmit((data) => {
+        updateSaveData(data);
+        handleContinue(data);
+      })}>
         <div className="flex flex-col w-[480px] h-fit rounded-[8px] justify-between p-[32px] bg-[white]">
           <div className="flex flex-col gap-[8px] mb-[28px]">
             <img src="/Images/Main 1.png" className="w-[60px] h-[60px]" />

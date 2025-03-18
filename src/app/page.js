@@ -12,7 +12,6 @@ import { Step3 } from "./components/step3";
 import { SaveDataProvider } from "./components/saveDataProvider";
 
 export default function Home() {
-  const [saveData, setSaveData] = useState(null);
   const [step, setStep] = useState(3);
 
   const handlePrev = async () => {
@@ -20,34 +19,26 @@ export default function Home() {
   };
 
   const handleContinue = (data) => {
-    console.log(data);
-    if (step === 1) {
-      setStep(2);
-    }
-    if (step === 2) {
-      setStep(3);
-    }
-    if (step === 3) {
-      setStep(4);
-    } else {
-      console.log("Form submitted successfully", data);
-    }
+    setSaveData((prevData) => ({
+      ...prevData, ...data,
+    }))
+    setStep(step + 1);
   };
 
   return (
-    <SaveDataProvider saveData={saveData} setSaveData={setSaveData}>
+    <SaveDataProvider>
       <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
         {step === 1 && (
-          <Step handleContinue={handleContinue} handlePrev={handlePrev} />
+          <Step handleContinue={(data) => handleContinue(data, setSaveData)} handlePrev={handlePrev} />
         )}
 
         {step === 2 && (
-          <Step1 handleContinue={handleContinue} handlePrev={handlePrev} />
+          <Step1 handleContinue={(data) => handleContinue(data, setSaveData)} handlePrev={handlePrev} />
         )}
         {step === 3 && (
-          <Step2 handleContinue={handleContinue} handlePrev={handlePrev} />
+          <Step2 handleContinue={(data) => handleContinue(data, setSaveData)} handlePrev={handlePrev} />
         )}
-        {step === 4 && <Step3 />}
+        {step === 4 && <Step3 handleContinue={(data) => handleContinue(data, setSaveData)}/>}
       </div>
     </SaveDataProvider>
   );
