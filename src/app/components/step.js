@@ -14,7 +14,10 @@ export const schema = z.object({
 });
 
 export const Step = ({ handleContinue }) => {
-const { saveData, setSaveData } = useContext(SaveContext)
+  const { saveData } = useContext(SaveContext);
+  const { updateSaveData } = useContext(SaveContext);
+  const { backButtonAnimation } = useContext(SaveContext);
+  const { continueButtonAnimation } = useContext(SaveContext);
 
   const {
     register,
@@ -23,23 +26,20 @@ const { saveData, setSaveData } = useContext(SaveContext)
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      firstName: saveData.firstName || "",
-      lastName: saveData.lastName || "",
-      username: saveData.username || "",
+      firstName: saveData?.firstName || "",
+      lastName: saveData?.lastName || "",
+      username: saveData?.username || "",
     },
   });
 
-  const handleAnimation = {
-    initial: { opacity: 0, x: -100 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: 100 },
-    transition: { duration: 0.5 },
-  };
-
-
   return (
     <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
-      <form onSubmit={handleSubmit(handleContinue)}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          handleContinue(data);
+          updateSaveData(data);
+        })}
+      >
         <div className="flex flex-col w-[480px] h-fit rounded-[8px] justify-between p-[32px] bg-[white]">
           <div className="flex flex-col gap-[8px] mb-[28px]">
             <img src="/Images/Main 1.png" className="w-[60px] h-[60px]" />

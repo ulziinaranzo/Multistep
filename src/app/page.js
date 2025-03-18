@@ -1,6 +1,6 @@
 "use client";
 import { ArrowIcon } from "@/assets/Arrow-Icon";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,37 +9,49 @@ import { Step } from "./components/step";
 import { Step2 } from "./components/step2";
 import { motion } from "framer-motion";
 import { Step3 } from "./components/step3";
-import { SaveDataProvider } from "./components/saveDataProvider";
+import { SaveContext, SaveDataProvider } from "./components/saveDataProvider";
 
 export default function Home() {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
+  const { saveData } = useContext(SaveContext);
 
   const handlePrev = async () => {
     setStep((prev) => prev - 1);
   };
 
   const handleContinue = (data) => {
-    setSaveData((prevData) => ({
-      ...prevData, ...data,
-    }))
     setStep(step + 1);
   };
 
+  const handleAnimation = {
+    initial: { opacity: 0, x: -100 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: 100 },
+    transition: { duration: 0.5 },
+  };
   return (
     <SaveDataProvider>
-      <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
+      <motion.div
+        key={step}
+        className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]"
+        variants={handleAnimation}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition="transition"
+      >
         {step === 1 && (
-          <Step handleContinue={(data) => handleContinue(data, setSaveData)} handlePrev={handlePrev} />
+          <Step handleContinue={handleContinue} handlePrev={handlePrev} />
         )}
 
         {step === 2 && (
-          <Step1 handleContinue={(data) => handleContinue(data, setSaveData)} handlePrev={handlePrev} />
+          <Step1 handleContinue={handleContinue} handlePrev={handlePrev} />
         )}
         {step === 3 && (
-          <Step2 handleContinue={(data) => handleContinue(data, setSaveData)} handlePrev={handlePrev} />
+          <Step2 handleContinue={handleContinue} handlePrev={handlePrev} />
         )}
-        {step === 4 && <Step3 handleContinue={(data) => handleContinue(data, setSaveData)}/>}
-      </div>
+        {step === 4 && <Step3 />}
+      </motion.div>
     </SaveDataProvider>
   );
 }

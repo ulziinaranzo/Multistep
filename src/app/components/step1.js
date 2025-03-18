@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
+import { SaveContext } from "./saveDataProvider";
 
 export const schema = z.object({
   phone: z
@@ -32,7 +33,8 @@ export const schema = z.object({
     }),
 });
 export const Step1 = ({ handleContinue, handlePrev }) => {
-  const { saveData, setSaveData } = useContext(SaveContext);
+  const { saveData } = useContext(SaveContext);
+  const { updateSaveData } = useContext(SaveContext);
 
   const {
     register,
@@ -41,19 +43,21 @@ export const Step1 = ({ handleContinue, handlePrev }) => {
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: data.email || "",
-      phone: data.phone || "",
-      password: data.password || "",
-      confirmPassword: data.confirmPassword || "",
+      email: saveData?.email || "",
+      phone: saveData?.phone || "",
+      password: saveData?.password || "",
+      confirmPassword: saveData?.confirmPassword || "",
     },
   });
 
   return (
     <div className="flex justify-center items-center h-screen w-screen bg-[#F4F4F4]">
-      <form onSubmit={handleSubmit((data) => {
-        updateSaveData(data);
-        handleContinue(data);
-      })}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          handleContinue(data);
+          updateSaveData(data);
+        })}
+      >
         <div className="flex flex-col w-[480px] h-fit rounded-[8px] justify-between p-[32px] bg-[white]">
           <div className="flex flex-col gap-[8px] mb-[28px]">
             <img src="/Images/Main 1.png" className="w-[60px] h-[60px]" />
