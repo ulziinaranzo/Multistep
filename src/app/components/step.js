@@ -16,8 +16,6 @@ export const schema = z.object({
 export const Step = ({ handleContinue }) => {
   const { saveData } = useContext(SaveContext);
   const { updateSaveData } = useContext(SaveContext);
-  const { backButtonAnimation } = useContext(SaveContext);
-  const { continueButtonAnimation } = useContext(SaveContext);
 
   const {
     register,
@@ -57,7 +55,7 @@ export const Step = ({ handleContinue }) => {
               </div>
               <input
                 {...register("firstName")}
-                placeholder="Нэрээ оруул"
+                placeholder="Your name"
                 className={`w-[416px] h-[44px] border p-[12px] rounded-[8px] ${
                   errors.firstName ? "border-red-600" : "border-[#8B8E95]"
                 }`}
@@ -107,7 +105,7 @@ export const Step = ({ handleContinue }) => {
           </div>
           <button
             type="submit"
-            className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] h-[44px] w-[416px] mt-[10px]"
+            className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] text-[16px] h-[44px] w-[416px] mt-[10px]"
           >
             Continue 1/3 <ArrowIcon />
           </button>

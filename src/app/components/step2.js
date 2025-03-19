@@ -135,12 +135,18 @@ import { ArrowIcon } from "@/assets/Arrow-Icon";
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { date, z } from "zod";
 import { motion } from "framer-motion";
 import { SaveContext } from "./saveDataProvider";
+import { BackArrowIcon } from "@/assets/Back-Arrow-Icon";
 
 export const schema = z.object({
-  date: z.string().min(1, { message: "Огноо оруулна уу" }),
+  date: z.string().min(1, { message: "Огноо оруулна уу" }).refine((date) => {
+    const inputDate = new Date(date);
+    const currentDate = new Date();
+    const age = currentDate.getFullYear() - inputDate.getFullYear();
+    return age >= 18;
+  }, { message: "Та 18 ба түүнээс дээш настай байх ёстой" }),
   img: z
     .custom((files) => {
       if (!files || files.length === 0) return false;
@@ -168,14 +174,9 @@ export const Step2 = ({ handleContinue, handlePrev }) => {
     },
   });
 
-  const { img } = watch();
-  const [preview, setPreview] = useState(null);
+  const img  = watch("img");
 
   const onSubmit = (data) => {
-    if (data.img && data.img[0]) {
-      const file = data.img[0];
-      setPreview(URL.createObjectURL(file));
-    }
     handleContinue(data);
     updateSaveData(data);
   };
@@ -210,63 +211,48 @@ export const Step2 = ({ handleContinue, handlePrev }) => {
             )}
           </div>
 
-          <div className="flex flex-col gap-[8px] text-[14px] text-[#334155] mt-[4px]">
+          <div className="flex flex-col relative gap-[8px] text-[14px] text-[#334155] mt-[4px]">
             <div className="flex gap-[4px] font-semibold">
               Profile Image <div className="flex text-[#E14942]">*</div>
             </div>
+            
             <input
               {...register("img")}
               type="file"
-              className="w-[416px] h-[44px] p-[12px] rounded-md mt-[12px] bg-[#7F7F800D]"
+              className="relative w-[416px] h-[44px] p-[12px] rounded-md mt-[12px] bg-[#7F7F800D]"
             />
+            <div className="flex flex-col absolute gap-[8px] right-[200px] top-[200px]">
+              <img className="w-[28px] h-[28px] ml-[20px]"/>
+              <div className="text-[14px] font-medium">Add image</div>
+            </div>
             {errors.img && (
               <div className="text-red-600 text-sm">{errors.img.message}</div>
             )}
 
             <div className="flex justify-center mt-4">
-              {img && (
+              {img?.length > 0 && (
                 <img
                   className="w-full h-[200px] object-cover rounded-[10px]"
                   src={URL.createObjectURL(img[0])}
                 />
               )}
             </div>
-            {/* <input
-              {...register("img")}
-              type="file"
-              className="w-[416px] h-[44px] p-[12px] rounded-md mt-[12px] bg-[#7F7F800D]"
-            />
-            {errors.img && (
-              <div className="text-red-600 text-sm">{errors.img.message}</div>
-            )}
-
-            <div className="flex justify-center mt-4">
-              {preview && (
-                <img
-                  className="w-full h-[200px] object-cover rounded-[10px]"
-                  src={preview}
-                />
-              )}
-            </div> */}
           </div>
 
           <div className="flex gap-[8px]">
             <button
-              type="button"
-              onClick={() => {
-                handlePrev();
-              }}
-              className="flex justify-center items-center bg-[white] rounded-[6px] text-[black] h-[44px] w-[416px] mt-[10px] border border-[#CBD5E1]"
-            >
-              Back
-              <ArrowIcon />
-            </button>
-            <button
-              type="submit"
-              className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] h-[44px] w-[416px] mt-[10px]"
-            >
-              Submit <ArrowIcon />
-            </button>
+                          type="button"
+                          onClick={handlePrev}
+                          className="flex justify-center items-center text-center bg-[white] rounded-[6px] text-[black] h-[44px] w-[128px] mt-[10px] border border-[#CBD5E1] text-[16px]"
+                        >
+                          <BackArrowIcon /> Back 
+                        </button>
+                        <button
+                          type="submit"
+                          className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] h-[44px] w-[416px] mt-[10px] text-[16px]"
+                        >
+                          Continue 2/3 <ArrowIcon />
+                        </button>
           </div>
         </div>
       </form>

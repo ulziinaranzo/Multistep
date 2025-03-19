@@ -12,7 +12,7 @@ import { Step3 } from "./components/step3";
 import { SaveContext, SaveDataProvider } from "./components/saveDataProvider";
 
 export default function Home() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   const { saveData } = useContext(SaveContext);
 
   const handlePrev = async () => {

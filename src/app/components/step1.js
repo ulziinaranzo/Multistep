@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
 import { SaveContext } from "./saveDataProvider";
+import { BackArrowIcon } from "@/assets/Back-Arrow-Icon";
 
 export const schema = z.object({
   phone: z
@@ -145,17 +146,17 @@ export const Step1 = ({ handleContinue, handlePrev }) => {
               )}
             </div>
           </div>
-          <div className="flex gap-[8px]">
+          <div className="flex justify-center items-center text-center gap-[8px]">
             <button
               type="button"
               onClick={handlePrev}
-              className="flex justify-center items-center text-center bg-[white] rounded-[6px] text-[black] h-[44px] w-[128px] mt-[10px] border border-[#CBD5E1]"
+              className="flex justify-center items-center text-center bg-[white] rounded-[6px] text-[black] h-[44px] w-[128px] mt-[10px] border border-[#CBD5E1] text-[16px]"
             >
-              Back <ArrowIcon />
+              <BackArrowIcon /> Back 
             </button>
             <button
               type="submit"
-              className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] h-[44px] w-[416px] mt-[10px]"
+              className="flex justify-center items-center bg-[#121316] rounded-[6px] text-[white] h-[44px] w-[416px] mt-[10px] text-[16px]"
             >
               Continue 2/3 <ArrowIcon />
             </button>
